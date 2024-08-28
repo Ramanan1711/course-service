@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Install SAM CLI
+        run: |
+          sudo pip3 install aws-sam-cli
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Package with SAM
+        run: sam package --template-file template.yaml --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --output-template-file packaged.yaml
+
+      - name: Deploy with SAM
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        run: sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM
