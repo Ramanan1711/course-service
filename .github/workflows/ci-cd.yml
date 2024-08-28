@@ -21,7 +21,8 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-
+      - name: Setenv
+        run: export SAM_CLI_TELEMETRY=0
       - name: Install SAM CLI
         run: |
           sudo pip3 install aws-sam-cli
