@@ -33,4 +33,4 @@ jobs:
             AWS_REGION: eu-north-1
         run: |
             sam package --template-file src/main/resources/template.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region $AWS_REGION
-            sam deploy --template-file packaged.yaml --stack-name your-stack-name --capabilities CAPABILITY_IAM --region $AWS_REGION
+            sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM --region $AWS_REGION
