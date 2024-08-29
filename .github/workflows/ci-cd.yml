@@ -34,7 +34,7 @@ jobs:
         run: ls -R
 
       - name: Package with SAM
-        run: sam package --template-file src/main/resources/template.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region eu-north-1
+        run: sam package --template-file src/main/resources/template.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region eu-north-1 --debug
 
 
       - name: Deploy with SAM
