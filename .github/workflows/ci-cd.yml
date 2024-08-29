@@ -30,8 +30,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
+      - name: List project files
+        run: ls -R
+
       - name: Package with SAM
-        run: sam package --template-file template.yaml --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --output-template-file packaged.yaml
+        run: sam package --template-file src/main/resources/template.yaml --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --output-template-file packaged.yaml
+
 
       - name: Deploy with SAM
         env:
