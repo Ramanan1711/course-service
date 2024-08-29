@@ -21,9 +21,7 @@ jobs:
 
       - name: Install SAM CLI
         run: |
-            curl "https://d1uj6qtbmh3dt5.cloudfront.net/aws-sam-cli-linux-x86_64.zip" -o "sam-cli.zip"
-            unzip sam-cli.zip -d /usr/local/bin
-            rm sam-cli.zip
+            sudo pip3 install aws-sam-cli
 
       - name: Build with Maven
         run: mvn clean install
