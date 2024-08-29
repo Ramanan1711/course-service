@@ -34,7 +34,7 @@ jobs:
         run: ls -R
 
       - name: Package with SAM
-        run: sam package --template-file src/main/resources/template.yaml --s3-bucket ${{ secrets.S3_BUCKET_NAME }} --output-template-file packaged.yaml --region eu-north-1
+        run: sam package --template-file src/main/resources/template.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region eu-north-1
 
 
       - name: Deploy with SAM
@@ -42,4 +42,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        run: sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM
+        run: sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM --region eu-north-1
