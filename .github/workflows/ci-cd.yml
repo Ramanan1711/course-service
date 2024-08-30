@@ -19,9 +19,9 @@ jobs:
             java-version: '21'
             distribution: 'temurin'
 
-      - name: Install SAM CLI
-        run: |
-            sudo pip3 install aws-sam-cli
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+
 
       - name: Build with Maven
         run: mvn clean install
@@ -35,5 +35,5 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             AWS_REGION: eu-north-1
         run: |
-            sam package --template-file template.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region $AWS_REGION
+            sam package --template-file serverless.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region $AWS_REGION
             sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM --region $AWS_REGION
