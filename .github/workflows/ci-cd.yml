@@ -9,6 +9,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      STAGE: dev
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
@@ -29,11 +32,11 @@ jobs:
       - name: Verify Build Output
         run: ls -la target/
 
-      - name: Package and Deploy SAM Application
+      - name: Deploy with Serverless Framework
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             AWS_REGION: eu-north-1
+            STAGE: ${{ env.STAGE }}
         run: |
-            sam package --template-file serverless.yaml --s3-bucket courseservice --output-template-file packaged.yaml --region $AWS_REGION
-            sam deploy --template-file packaged.yaml --stack-name aws-lambda-example --capabilities CAPABILITY_IAM --region $AWS_REGION
+            serverless deploy --stage $STAGE --region $AWS_REGION

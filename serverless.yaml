@@ -25,6 +25,6 @@ Resources:
 Outputs:
   AwsLambdaExampleApi:
     Description: URL for application
-    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/{stage}'
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/courses'
     Export:
       Name: AwsLambdaExampleApi
