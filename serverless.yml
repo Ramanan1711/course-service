@@ -1,0 +1,43 @@
+service: aws-lambda-example
+
+provider:
+  name: aws
+  runtime: java21
+  region: ${opt:region, 'eu-north-1'}
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  AwsLambdaExampleFunction:
+    handler: org.example.StreamLambdaHandler::handleRequest
+    memorySize: 512
+    timeout: 30
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-java-lambda
+
+resources:
+  Resources:
+    AwsLambdaExampleFunction:
+      Type: AWS::Serverless::Function
+      Properties:
+        Handler: org.example.StreamLambdaHandler::handleRequest
+        Runtime: java21
+        CodeUri: .
+        MemorySize: 512
+        Policies: AWSLambdaBasicExecutionRole
+        Timeout: 30
+        Events:
+          ProxyResource:
+            Type: Api
+            Properties:
+              Path: /{proxy+}
+              Method: any
+  Outputs:
+    AwsLambdaExampleApi:
+      Description: URL for application
+      Value: !Sub 'https://${AWS::StackName}.execute-api.${AWS::Region}.amazonaws.com/${self:provider.stage}/courses'
