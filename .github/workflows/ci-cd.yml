@@ -22,6 +22,18 @@ jobs:
             java-version: '21'
             distribution: 'temurin'
 
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+              ${{ runner.os }}-maven-      
+
+      - name: Install Dependencies
+        run: npm ci
+
+
       - name: Install Serverless Framework
         run: npm install -g serverless
 
@@ -40,5 +52,4 @@ jobs:
             STAGE: ${{ env.STAGE }}
             SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: |
-            serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY --profile serverless
             serverless deploy --stage $STAGE --region $AWS_REGION
