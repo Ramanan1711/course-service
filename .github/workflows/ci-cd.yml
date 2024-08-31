@@ -31,7 +31,7 @@ jobs:
               ${{ runner.os }}-maven-      
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
 
       - name: Install Serverless Framework
