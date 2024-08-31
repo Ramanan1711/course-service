@@ -20,22 +20,6 @@ plugins:
   - serverless-deployment-bucket
 
 resources:
-  Resources:
-    AwsLambdaExampleFunction:
-      Type: AWS::Serverless::Function
-      Properties:
-        Handler: org.example.StreamLambdaHandler::handleRequest
-        Runtime: java21
-        CodeUri: .
-        MemorySize: 512
-        Policies: AWSLambdaBasicExecutionRole
-        Timeout: 30
-        Events:
-          ProxyResource:
-            Type: Api
-            Properties:
-              Path: /{proxy+}
-              Method: any
   Outputs:
     AwsLambdaExampleApi:
       Description: URL for application
