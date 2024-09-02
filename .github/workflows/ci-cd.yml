@@ -9,26 +9,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    env:
-      STAGE: dev
-
     steps:
       - name: Check out code
         uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: eu-north-1
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
             java-version: '21'
             distribution: 'temurin'
-
-      - name: Cache Maven Dependencies
-        uses: actions/cache@v3
-        with:
-            path: ~/.m2/repository
-            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-            restore-keys: |
-              ${{ runner.os }}-maven-      
 
       - name: Install Serverless Framework
         run: npm install -g serverless
@@ -46,8 +42,5 @@ jobs:
         env:
             AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            AWS_REGION: eu-north-1
-            STAGE: ${{ env.STAGE }}
-            SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: |
-            serverless deploy --stage $STAGE --region $AWS_REGION
+            serverless deploy --verbose

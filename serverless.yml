@@ -3,8 +3,7 @@ service: aws-lambda-example
 provider:
   name: aws
   runtime: java21
-  region: ${opt:region, 'eu-north-1'}
-  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
 
 functions:
   AwsLambdaExampleFunction:
@@ -18,9 +17,3 @@ functions:
 
 plugins:
   - serverless-deployment-bucket
-
-resources:
-  Outputs:
-    AwsLambdaExampleApi:
-      Description: URL for application
-      Value: !Sub 'https://${AWS::StackName}.execute-api.${AWS::Region}.amazonaws.com/${self:provider.stage}/courses'
