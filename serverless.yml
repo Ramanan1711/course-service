@@ -5,6 +5,9 @@ provider:
   runtime: java21
   region: eu-north-1
 
+package:
+  artifact: target/aws-lambda-example-1.0-SNAPSHOT-lambda-package.zip
+
 functions:
   AwsLambdaExampleFunction:
     handler: org.example.StreamLambdaHandler::handleRequest
