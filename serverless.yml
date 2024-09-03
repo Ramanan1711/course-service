@@ -4,6 +4,12 @@ provider:
   name: aws
   runtime: java21
   region: eu-north-1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://courses-db.cd8os8kwwi4b.eu-north-1.rds.amazonaws.com:5432/courses-db
+    SPRING_DATASOURCE_USERNAME: postgres
+    SPRING_DATASOURCE_PASSWORD: #Password1711#
+    memorySize: 512
+    timeout: 30
 
 package:
   artifact: target/aws-lambda-example-1.0-SNAPSHOT-lambda-package.zip
